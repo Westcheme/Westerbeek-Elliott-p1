@@ -2,7 +2,11 @@ from sly import Lexer
 
 class Winter2024Lexer(Lexer):
   # define names of tokens
-  tokens = {PLUS, MINUS, TIMES, DIVIDE, LEFTPAR,RIGHTPAR, SEMICOLON, ASSIGN, INTEGER, FLOAT,IDENTIFIER, INTK, FLOATK, DOUBLEK, CHAR, FOR, WHILE, IF, BREAK, SWITCH, CLASS, PRIVATE, PUBLIC, STRING}
+  # KEYWORDS: nothing, int, double, bool, string, class, interface, null, this, extends, implements, for, while, if, else, return, break, new, ArrayInstance, Output, InputInt, InputLine
+  # OPERATORS: +  −  ∗  /  %  <  <=  >  >=  =  ==  !=  &&  ||  !  ;  ,  .  [  ]  (   ) {  }
+  tokens = {PLUS, MINUS, TIMES, DIVIDE, MOD, LESS, LESSEQUAL, GREATER, GREATEREQUAL, ASSIGN, EQUIVALENT, NOTEQUAL, AND, OR, NOT, SEMICOLON, COMMA, DOT, LEFTBRACKET, RIGHTBRACKET, LEFTPAR, RIGHTPAR, LEFTCURLY, RIGHTCURLY,
+            NOTHING, INTK, DOUBLEK, BOOL, STRING, CLASS, INTERFACE, NULL, THIS, EXTENDS, IMPLEMENTS, FOR, WHILE, IF, ELSE, RETURN, BREAK, NEW, ARRAYINSTANCE, OUTPUT, INPUTINT, INPUTLINE,
+            INTEGER, DOUBLE, IDENTIFIER}
 
   literals ={'+', '-', '*', '/'}
   # specify items to ignore
@@ -39,18 +43,22 @@ class Winter2024Lexer(Lexer):
   RIGHTPAR =r'\)'
   SEMICOLON = r'\;'
   ASSIGN= r'\='
+  DOT= r'\.'
 
   # Numbers
-  FLOAT= r'[0-9]*\.[0-9]+'
   INTEGER = r'[0-9]+'
+  DOUBLE= r'[0-9]+\.[0-9]*'
+  
+  #DOUBLE = r'[0-9]+\.[0-9]* | [0-9]+\.[0-9]*(E)(\+)?[0-9]'
 
   # Identifiers
-  IDENTIFIER = r'[a-zA-Z_][a-zA-Z0-9_]*'
+  IDENTIFIER = r'[a-zA-Z_][a-zA-Z0-9_]{0,49}'
 
   # specisal case for keywords
-  IDENTIFIER['int'] = INTK
-  IDENTIFIER['float'] = FLOATK
-  IDENTIFIER['char'] = CHAR
+  #IDENTIFIER['int'] = INTK
+  #IDENTIFIER['float'] = FLOATK
+  #IDENTIFIER['char'] = CHAR
+  IDENTIFIER['bool'] = BOOL
   IDENTIFIER['for'] = FOR
   IDENTIFIER['while'] = WHILE
   IDENTIFIER['if'] = IF
@@ -70,10 +78,7 @@ class Winter2024Lexer(Lexer):
 if __name__ =='__main__':
   myscanner = Winter2024Lexer()
   stream = '''
-            int x;
-            ind y;
-            float z;
-            w = (x+y*z)/100;
+            0.45
            '''
     #input('Winter2024Lexer$')
   for token in myscanner.tokenize(stream):
